@@ -1,0 +1,8 @@
+{
+    "author" : ["Goldi (goldifish)"],
+    "install_msg" : "Thanks for installing! Report any issues on GitHub.",
+    "name" : "Goldicogs",
+    "short" : "A collection of cogs for Redbot.",
+    "description" : "A collection of cogs built for the discord bot Redbot, designed for the needs of private discords. These are free to use everywhere though.",
+    "tags" : ["testbot"]
+}
