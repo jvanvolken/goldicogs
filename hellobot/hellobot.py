@@ -9,7 +9,7 @@ class HelloBot(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         channel = member.guild.system_channel
-        userAvatarUrl = member.avatar_url
+        userAvatarUrl = member.display_avatar
         if channel is not None:
             await channel.send(f'Welcome {member.mention}!!/n{userAvatarUrl}')
 
