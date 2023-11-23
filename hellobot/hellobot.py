@@ -11,7 +11,7 @@ class HelloBot(commands.Cog):
         channel = member.guild.system_channel
         userAvatarUrl = member.display_avatar
         if channel is not None:
-            await channel.send(f'Welcome {member.mention}!!/n{userAvatarUrl}')
+            await channel.send(f'Welcome {member.mention}!!\n{userAvatarUrl}')
 
     @commands.command()
     async def hello(self, ctx):
