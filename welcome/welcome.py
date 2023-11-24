@@ -1,7 +1,8 @@
 import discord
+from pathlib import Path
 from redbot.core import commands
 
-docker_cog_path = "/data/cogs/Welcome/Avatars/"
+docker_cog_path = "/data/cogs/Welcome"
 
 class Welcome(commands.Cog):
     """My custom cog"""
@@ -25,8 +26,11 @@ class Welcome(commands.Cog):
         channel = ctx.channel
         author = ctx.message.author
 
-        # Download the avatar image
-        filename = docker_cog_path + f"avatar_{author.id}.jpg"
+        # Setup avatar folder and filename
+        Path(docker_cog_path + "/Avatar").mkdir(parents=True, exist_ok=True)
+        filename = docker_cog_path + f"/avatar_{author.id}.jpg"
+
+        # Download and save the avatar image
         await author.avatar.save(filename)
         avatar_file = discord.File(filename)
 
