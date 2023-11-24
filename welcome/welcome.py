@@ -1,5 +1,10 @@
-import discord
+# Image and File Manipulation Libraries
 from pathlib import Path
+from PIL import Image
+from PIL import ImageDraw
+
+# Discord Bot Libraries
+import discord
 from redbot.core import commands
 
 docker_cog_path = "/data/cogs/Welcome"
@@ -37,17 +42,38 @@ class Welcome(commands.Cog):
         await author.avatar.save(filename)
         avatar_file = discord.File(filename)
 
-        # Sends message in the command's origin channel
-        await channel.send(f"Hello {author.mention}!", file = avatar_file)
-
+        # Sends a welcome message in the command's origin channel
         if Path(BackgroundImage).is_file():
-            await channel.send(f"With this background!", file = discord.File(BackgroundImage))
+            avatar_background = docker_cog_path + "avatar_background.png"
+
+            img = Image.open(BackgroundImage)
+            width, height = img.size
+
+            margins = width * 0.1
+
+            draw = ImageDraw.Draw(img, "RGBA")
+            draw.rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 127))
+            img.save(avatar_background)
+
+            await channel.send(f"With this background!", file = discord.File(avatar_background))
+        else:
+            await channel.send(f"Hello {author.mention}!", file = avatar_file)
+
+
 
     @commands.command()
     async def set_background(self, ctx):
         """Sets the background of the welcome message!"""
         
+        # Get important information about the context of the command
+        channel = ctx.channel
+        author = ctx.message.author
+
         # Download and save the attachment file
         await ctx.message.attachments[0].save(BackgroundImage)
+
+        # Sends message in the command's origin channel
+        await channel.send(f"Thanks for the new Welcome Message background, {author.mention}! This will do nicely!")
+
 
 
