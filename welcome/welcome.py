@@ -56,14 +56,14 @@ class Welcome(commands.Cog):
         # Checks if background image path is a valid file, send just member avatar instead.
         if Path(background_image).is_file():
             # Opens the background image and the avatar image
-            background = Image.open(background_image)
+            welcome_background = Image.open(background_image)
             avater_image = Image.open(avatar_filename)
 
             # Records the width and height of the background image
-            width, height = background.size
+            width, height = welcome_background.size
 
             #Apply GaussianBlur filter
-            blurred_background = background.filter(ImageFilter.GaussianBlur(5))
+            blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
 
             # Set the background's margin
             margins = width * 0.07
@@ -73,7 +73,8 @@ class Welcome(commands.Cog):
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
             # Overlays avatar onto background
-            blurred_background.paste(avater_image, (0, 0) , mask)
+            x, y = avater_image.size
+            blurred_background.paste(avater_image, (0, 0, x, y) , mask)
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
