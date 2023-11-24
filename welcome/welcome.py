@@ -49,7 +49,7 @@ class Welcome(commands.Cog):
             img = Image.open(BackgroundImage)
             width, height = img.size
 
-            margins = width * 0.075
+            margins = width * 0.07
 
             draw = ImageDraw.Draw(img, "RGBA")
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
