@@ -90,7 +90,7 @@ class Welcome(commands.Cog):
         author = ctx.message.author
 
         # Download and save the attachment file
-        await ctx.message.attachments[0].save(BackgroundImage)
+        await ctx.message.attachments[0].save(background_image)
 
         # Sends message in the command's origin channel
         await channel.send(f"Thanks for the new Welcome Message background, {author.mention}! This will do nicely!")
