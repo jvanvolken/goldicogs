@@ -48,6 +48,6 @@ class Welcome(commands.Cog):
         """Sets the background of the welcome message!"""
         
         # Download and save the attachment file
-        await ctx.message.attachments[0].url.save(BackgroundImage)
+        await ctx.message.attachments[0].save(BackgroundImage)
 
 
