@@ -39,7 +39,7 @@ class Welcome(commands.Cog):
         filename = Avatars + f"/avatar_{author.id}.jpg"
 
         # Download and save the avatar image
-        await author.avatar.save(filename)
+        await author.display_icon.save(filename)
         avatar_file = discord.File(filename)
 
         # Sends a welcome message in the command's origin channel
@@ -55,6 +55,7 @@ class Welcome(commands.Cog):
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
             img.save(avatar_background)
 
+            await channel.send(f"Hello {author.mention}!", file = avatar_file)
             await channel.send(f"Welcome to the treehouse, {author.mention}! Make yourself at home!", file = discord.File(avatar_background))
         else:
             await channel.send(f"Hello {author.mention}!", file = avatar_file)
