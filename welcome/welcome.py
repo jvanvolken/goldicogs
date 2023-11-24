@@ -62,7 +62,7 @@ class Welcome(commands.Cog):
             width, height = background.size
 
             #Apply GaussianBlur filter
-            blurred_background = background.filter(ImageFilter.GaussianBlur(5))
+            blurred_background = background.filter(ImageFilter.GaussianBlur(10))
 
             # Set the background's margin
             margins = width * 0.07
