@@ -74,16 +74,20 @@ class Welcome(commands.Cog):
             draw = ImageDraw.Draw(blurred_background, "RGBA")
             draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
-            # Scale the fontsize up until it fills the desired space
+            # Set welcome message and desired width
+            welcome_message = f"Welcome to the treehouse, {author.display_name}!"
+            message_width = background_width - (margins * 2)
+
+            # Increase font size until it fills the desired space
             fontsize = 1
             font = ImageFont.truetype(welcome_font, fontsize)
-            welcome_message = f"Welcome to the treehouse, {author.display_name}!"
-            while font.getsize(welcome_message)[0] < background_width - (margins * 2):
+            while font.getsize(welcome_message)[0] < message_width:
                 fontsize += 1
                 font = ImageFont.truetype(welcome_font, fontsize)
 
             # Overlay text onto blurred background
-            draw.text((0, 0), welcome_message, (255,255,255), font = font)
+            position = (round((background_width - message_width)/2), background_height - round(margins * 1.5))
+            draw.text(position, welcome_message, (255,255,255), font = font)
             
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
