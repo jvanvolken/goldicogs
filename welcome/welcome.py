@@ -8,8 +8,9 @@ from redbot.core import commands
 
 docker_cog_path = "/data/cogs/Welcome"
 
-Avatars = docker_cog_path + "/Avatars"
-background_image = docker_cog_path + "/background_image.jpg"
+Avatars_Dir       = docker_cog_path + "/Avatars"
+background_image  = docker_cog_path + "/welcome_background.jpg"
+avatar_background = docker_cog_path + "/avatar_background.png"
 
 class Welcome(commands.Cog):
     """My custom cog"""
@@ -34,8 +35,8 @@ class Welcome(commands.Cog):
         author = ctx.message.author
 
         # Setup avatar folder and filename
-        Path(Avatars).mkdir(parents=True, exist_ok=True)
-        avatar_filename = Avatars + f"/avatar_{author.id}.png"
+        Path(Avatars_Dir).mkdir(parents=True, exist_ok=True)
+        avatar_filename = Avatars_Dir + f"/avatar_{author.id}.png"
 
         # Download and save the avatar image
         await author.avatar.save(avatar_filename)
@@ -54,9 +55,6 @@ class Welcome(commands.Cog):
         
         # Checks if background image path is a valid file, send just member avatar instead.
         if Path(background_image).is_file():
-            # Sets avatar background path
-            avatar_background = docker_cog_path + "avatar_background.png"
-
             # Opens the background image and record the width and height
             background = Image.open(background_image)
             width, height = background.size
@@ -71,8 +69,8 @@ class Welcome(commands.Cog):
             draw = ImageDraw.Draw(blurred_background, "RGBA")
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
-            # Saves the blurred background
-            blurred_background.save(background_image)
+            # Saves the blurred background as the avatar background
+            blurred_background.save(avatar_background)
 
             # Sends a welcome message in the command's origin channel
             await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
