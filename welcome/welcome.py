@@ -86,7 +86,7 @@ class Welcome(commands.Cog):
                 font = ImageFont.truetype(welcome_font, fontsize)
 
             # Overlay text onto blurred background
-            position = (round((background_width - message_width)/2), background_height - round(margins * 1.5) - font.getsize(welcome_message)[1]/2)
+            position = (round((background_width - message_width)/2), background_height - round(margins) - font.getsize(welcome_message)[1]/2)
             draw.text(position, welcome_message, (255,255,255), font = font)
             
             # Construct a circular mask for the avatar image
