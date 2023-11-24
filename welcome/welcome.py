@@ -1,6 +1,6 @@
 # Image and File Manipulation Libraries
 from pathlib import Path
-from PIL import Image, ImageOps, ImageDraw
+from PIL import Image, ImageOps, ImageDraw, ImageFilter
 
 # Discord Bot Libraries
 import discord
@@ -9,7 +9,7 @@ from redbot.core import commands
 docker_cog_path = "/data/cogs/Welcome"
 
 Avatars = docker_cog_path + "/Avatars"
-BackgroundImage = docker_cog_path + "/background_image.jpg"
+background_image = docker_cog_path + "/background_image.jpg"
 
 class Welcome(commands.Cog):
     """My custom cog"""
@@ -53,29 +53,32 @@ class Welcome(commands.Cog):
         new_avatar.save(avatar_filename)
         
         # Checks if background image path is a valid file, send just member avatar instead.
-        if Path(BackgroundImage).is_file():
+        if Path(background_image).is_file():
             # Sets avatar background path
             avatar_background = docker_cog_path + "avatar_background.png"
 
             # Opens the background image and record the width and height
-            img = Image.open(BackgroundImage)
-            width, height = img.size
+            background = Image.open(background_image)
+            width, height = background.size
+
+            #Apply GaussianBlur filter
+            blurred_background = background.filter(ImageFilter.GaussianBlur(5))
 
             # Set the background's margin
             margins = width * 0.07
 
             # Draw shadow and save new background image
-            draw = ImageDraw.Draw(img, "RGBA")
+            draw = ImageDraw.Draw(blurred_background, "RGBA")
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
-
+            # Saves the blurred background
+            blurred_background.save(background_image)
 
             # Sends a welcome message in the command's origin channel
             await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
             await channel.send(f"Welcome to the treehouse, {author.mention}! Make yourself at home!", file = discord.File(avatar_background))
         else:
             await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
-
 
 
     @commands.command()
