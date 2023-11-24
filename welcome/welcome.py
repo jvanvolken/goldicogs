@@ -52,7 +52,7 @@ class Welcome(commands.Cog):
             avatar_width, avatar_height = avatar_image.size
 
             # Resize avatar image to fit the background
-            resize_ratio = background_height / avatar_height
+            resize_ratio = (background_height / avatar_height) * 0.4
             resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.ANTIALIAS)
             resized_width, resized_height = resized_avatar.size
 
@@ -72,7 +72,7 @@ class Welcome(commands.Cog):
             draw.ellipse((0, 0) + resized_avatar.size, fill=255)
             
             # Overlays avatar onto background
-            position = (round((background_width - resized_width)/2), 0) # round(margins * 1.5)
+            position = (round((background_width - resized_width)/2), round(margins * 1.5))
             blurred_background.paste(resized_avatar, position, mask)
 
             # Saves the blurred background as the avatar background
