@@ -59,11 +59,6 @@ class Welcome(commands.Cog):
             background_width, background_height = welcome_background.size
             avatar_width, avatar_height = avatar_image.size
 
-            # Resize avatar image to fit the background
-            resize_ratio = (background_height / avatar_height) * 0.4
-            resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.Resampling.LANCZOS)
-            resized_width, resized_height = resized_avatar.size
-
             #Apply GaussianBlur filter
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
 
@@ -97,19 +92,26 @@ class Welcome(commands.Cog):
 
             # Overlay text onto blurred background
             position = (round((background_width - line1_width)/2), background_height - round(margins * 1.3) - line1_height - line2_height)
-            draw.text(position, welcome_message, (209, 202, 192), font = font)
+            draw.text(position, welcome_message, (209, 202, 192, 255), font = font)
             position = (round((background_width - line2_width)/2), background_height - round(margins * 1.3) - line2_height)
-            draw.text(position, clean_name, (209, 202, 192), font = name_font)
+            draw.text(position, clean_name, (209, 202, 192, 255), font = name_font)
             
+            # Resize avatar image to fit the background
+            resize_ratio = (background_height / avatar_height) * 0.4
+            resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.Resampling.LANCZOS)
+            resized_width, resized_height = resized_avatar.size
+
+            # Draw circle around avatar image
+            draw.ellipse((0, 0) + resized_avatar.size, outline = (209, 202, 192, 255), width = 20, antialias = 1)
+
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
             draw = ImageDraw.Draw(mask) 
-            draw.ellipse((0, 0) + resized_avatar.size, fill=255)
+            draw.ellipse((0, 0) + resized_avatar.size, fill=255, antialias = 1)
             
             # Overlay avatar onto blurred background
             position = (round((background_width - resized_width)/2), round(margins * 1.3))
             blurred_background.paste(resized_avatar, position, mask)
-
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
