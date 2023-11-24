@@ -25,8 +25,8 @@ class Welcome(commands.Cog):
 
         # Download the avatar image
         filename = f"avatar_{author.id}.jpg"
-        await author.avatar_url.save(filename)
-        author_avatar = discord.File(filename)
+        await author.avatar.save(filename)
+        avatar_file = discord.File(filename)
 
         # Sends message in the command's origin channel
-        await channel.send(f"Hello {author.mention}!", file = author_avatar)
+        await channel.send(f"Hello {author.mention}!", file = avatar_file)
