@@ -66,9 +66,9 @@ class Welcome(commands.Cog):
             draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
             # Construct a circular mask for the avatar image
-            mask = Image.new('L', (avatar_width, avatar_height), 0)
+            mask = Image.new('L', resized_avatar.size, 0)
             draw = ImageDraw.Draw(mask) 
-            draw.ellipse((0, 0, avatar_width, avatar_height), fill=255)
+            draw.ellipse((0, 0) + resized_avatar.size, fill=255)
             
             # Overlays avatar onto background
             position = (round((background_width - avatar_width)/2), 0) # round(margins * 1.5)
