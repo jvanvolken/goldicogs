@@ -61,7 +61,7 @@ class Welcome(commands.Cog):
 
             # Resize avatar image to fit the background
             resize_ratio = (background_height / avatar_height) * 0.4
-            resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.ANTIALIAS)
+            resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.Resampling.LANCZOS)
             resized_width, resized_height = resized_avatar.size
 
             #Apply GaussianBlur filter
@@ -82,12 +82,12 @@ class Welcome(commands.Cog):
             # Increase font size until it fills the desired space
             fontsize = 1
             font = ImageFont.truetype(welcome_font, fontsize)
-            while font.getbox(welcome_message)[0] < message_width:
+            while font.getbbox(welcome_message)[0] < message_width:
                 fontsize += 1
                 font = ImageFont.truetype(welcome_font, fontsize)
 
             # Overlay text onto blurred background
-            position = (round((background_width - message_width)/2), background_height - round(margins * 1.5) - font.getbox(welcome_message)[1])
+            position = (round((background_width - message_width)/2), background_height - round(margins * 1.5) - font.getbbox(welcome_message)[1])
             draw.text(position, welcome_message, (255,255,255), font = font)
             
             # Construct a circular mask for the avatar image
