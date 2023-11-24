@@ -75,7 +75,7 @@ class Welcome(commands.Cog):
             draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
             # Set welcome message and desired width
-            clean_name = author.display_name.decode('utf-8','ignore')
+            clean_name = author.display_name.encode().decode('utf-8','ignore')
             welcome_message = f"Welcome to the treehouse, {clean_name}!"
             message_width = (background_width - (margins * 2)) * 0.8
 
