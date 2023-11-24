@@ -82,7 +82,7 @@ class Welcome(commands.Cog):
             # Increase font size until it fills the desired space
             fontsize = 1
             font = ImageFont.truetype(welcome_font, fontsize)
-            while font.getbbox(welcome_message)[0] < message_width:
+            while (font.getbbox(welcome_message)[2] - font.getbbox(welcome_message)[0]) < message_width:
                 fontsize += 1
                 font = ImageFont.truetype(welcome_font, fontsize)
 
