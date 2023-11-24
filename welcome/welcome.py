@@ -67,7 +67,8 @@ class Welcome(commands.Cog):
             draw.ellipse((0, 0, avatar_width, avatar_height), fill=255)
             
             # Overlays avatar onto background
-            blurred_background.paste(avater_image, (round((background_width - avatar_width)/2, 0), round(margins * 1.05, 0)), mask)
+            position = (round((background_width - avatar_width)/2), round(margins * 1.05))
+            blurred_background.paste(avater_image, position, mask)
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
