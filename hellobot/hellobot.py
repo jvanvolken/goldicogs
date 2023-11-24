@@ -11,10 +11,16 @@ class HelloBot(commands.Cog):
         channel = member.guild.system_channel
         userAvatarUrl = member.display_avatar
         if channel is not None:
+
             await channel.send(f'Welcome {member.mention}!!\n{userAvatarUrl}')
 
     @commands.command()
     async def hello(self, ctx):
         """This does stuff!"""
-        # Your code will go here
         await ctx.send("I can do things!")
+
+    @commands.command()
+    async def test_cmd(self, ctx):
+        """This responds to the text command!"""
+        channel = ctx.channel
+        await channel.send("Hello {ctx.message.author.mention}!")
