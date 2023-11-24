@@ -47,6 +47,6 @@ class Welcome(commands.Cog):
     async def set_background(self, ctx):
         """Sets the background of the welcome message!"""
         
-        ctx.message.attachment.save(BackgroundImage)
+        ctx.attachment.save(BackgroundImage)
 
 
