@@ -41,45 +41,38 @@ class Welcome(commands.Cog):
         # Download and save the avatar image
         await author.avatar.save(avatar_filename)
         
-        # Setup a circular mask
-        avater_image = Image.open(avatar_filename)
-        masksize = avater_image.size
-        mask = Image.new('L', masksize, 0)
-        draw = ImageDraw.Draw(mask) 
-        draw.ellipse((0, 0) + masksize, fill=255)
-        
-        # Apply the mask to the avatar image
-        # avater_image = Image.open(avatar_filename)
-        # new_avatar = ImageOps.fit(avater_image, mask.size, centering=(0.5, 0.5))
-        # new_avatar.putalpha(mask)
-        # new_avatar.save(avatar_filename)
-        
         # Checks if background image path is a valid file, send just member avatar instead.
         if Path(background_image).is_file():
-            # Opens the background image and the avatar image
+            # Opens the background and avatar images
             welcome_background = Image.open(background_image)
+            avater_image = Image.open(avatar_filename)
 
-            # Records the width and height of the background image
-            width, height = welcome_background.size
+            # Records the width and height of the background and avatar images
+            background_width, background_height = welcome_background.size
+            avatar_width, avatar_height = avater_image.size
 
             #Apply GaussianBlur filter
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
 
             # Set the background's margin
-            margins = width * 0.07
+            margins = background_width * 0.07
 
             # Draw shadow and save new background image
             draw = ImageDraw.Draw(blurred_background, "RGBA")
-            draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
+            draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
+            # Construct a circular mask for the avatar image
+            mask = Image.new('L', (avatar_width, avatar_height), 0)
+            draw = ImageDraw.Draw(mask) 
+            draw.ellipse((avatar_width, avatar_height), fill=255)
+            
             # Overlays avatar onto background
-            blurred_background.paste(avater_image, (0, 0), mask)
+            blurred_background.paste(avater_image, ((background_width - avatar_width)/2, margins * 1.05), mask)
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
 
             # Sends a welcome message in the command's origin channel
-            await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
             await channel.send(f"Welcome to the treehouse, {author.mention}! Make yourself at home!", file = discord.File(avatar_background))
         else:
             await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
