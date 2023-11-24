@@ -86,14 +86,20 @@ class Welcome(commands.Cog):
                 fontsize += 1
                 font = ImageFont.truetype(welcome_font, fontsize)
 
+            # Set the member display name fontsize
+            name_font = ImageFont.truetype(welcome_font, round(fontsize * 1.2))
+
+            # Get the width and height for each line
+            line1_width = font.getbbox(welcome_message)[2] - font.getbbox(welcome_message)[0]
+            line1_height = font.getbbox(welcome_message)[3] - font.getbbox(welcome_message)[1]
+            line2_width = name_font.getbbox(clean_name)[2] - name_font.getbbox(clean_name)[0]
+            line2_height = name_font.getbbox(clean_name)[3] - name_font.getbbox(clean_name)[1]
+
             # Overlay text onto blurred background
-            font_height = font.getbbox(welcome_message)[3] - font.getbbox(welcome_message)[1]
-
-            position = (round((background_width - message_width)/2), background_height - round(margins * 1.3) - (font_height * 2))
+            position = (round((background_width - line1_width)/2), background_height - round(margins * 1.3) - line1_height - line2_height)
             draw.text(position, welcome_message, (209, 202, 192), font = font)
-
-            position = (round((background_width - message_width)/2), background_height - round(margins * 1.3) - font_height)
-            draw.text(position, clean_name, (209, 202, 192), font = font)
+            position = (round((background_width - line2_width)/2), background_height - round(margins * 1.3) - line2_height)
+            draw.text(position, clean_name, (209, 202, 192), font = name_font)
             
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
