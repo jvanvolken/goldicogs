@@ -72,7 +72,7 @@ class Welcome(commands.Cog):
             # Set welcome message and desired width
             clean_name = author.display_name.encode().decode('ascii','ignore')
             welcome_message = f"Welcome to the treehouse,"
-            message_width = (background_width - (margins * 2)) * 0.8
+            message_width = (background_width - (margins * 2)) * 0.75
 
             # Increase font size until it fills the desired space
             fontsize = 1
@@ -91,9 +91,9 @@ class Welcome(commands.Cog):
             line2_height = name_font.getbbox(clean_name)[3] - name_font.getbbox(clean_name)[1]
 
             # Overlay text onto blurred background
-            position = (round((background_width - line1_width)/2), background_height - round(margins * 1.3) - line1_height - line2_height)
+            position = (round((background_width - line1_width)/2), background_height - round(margins * 1.4) - line1_height - line2_height)
             draw.text(position, welcome_message, (209, 202, 192, 255), font = font)
-            position = (round((background_width - line2_width)/2), background_height - round(margins * 1.3) - line2_height)
+            position = (round((background_width - line2_width)/2), background_height - round(margins * 1.4) - line2_height)
             draw.text(position, clean_name, (209, 202, 192, 255), font = name_font)
             
             # Resize avatar image to fit the background
@@ -103,8 +103,8 @@ class Welcome(commands.Cog):
 
             # Draw circle around avatar image
             outline_thickness = 5
-            outline_gap = 5
-            position = (round((background_width - resized_width)/2), round(margins * 1.3))
+            outline_gap = 8
+            position = (round((background_width - resized_width)/2), round(margins * 1.4))
             outlineShape = (
                 position[0] - outline_thickness - outline_gap, 
                 position[1] - outline_thickness - outline_gap,
