@@ -40,7 +40,7 @@ class Welcome(commands.Cog):
         # Sends message in the command's origin channel
         await channel.send(f"Hello {author.mention}!", file = avatar_file)
 
-        if Path(BackgroundImage).if_file():
+        if Path(BackgroundImage).is_file():
             await channel.send(f"With this background!", file = discord.File(BackgroundImage))
 
     @commands.command()
