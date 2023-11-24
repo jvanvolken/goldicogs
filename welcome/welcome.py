@@ -66,6 +66,9 @@ class Welcome(commands.Cog):
             #Apply GaussianBlur filter
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
 
+            # Set the background's margin
+            margins = background_width * 0.07
+            
             # Resize avatar image to fit the background
             resize_ratio = (background_height / avatar_height) * 0.4
             resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.Resampling.LANCZOS)
@@ -73,9 +76,6 @@ class Welcome(commands.Cog):
 
             # Determines the avatar position early to determine layout
             avatar_position = (round((background_width - resized_width)/2), round(margins * 1.4))
-
-            # Set the background's margin
-            margins = background_width * 0.07
 
             # Draw shadow and save new background image
             draw = ImageDraw.Draw(blurred_background, "RGBA")
