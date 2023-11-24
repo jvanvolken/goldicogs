@@ -50,7 +50,7 @@ class Welcome(commands.Cog):
         avater_image = Image.open(avatar_filename)
         new_avatar = ImageOps.fit(avater_image, mask.size, centering=(0.5, 0.5))
         new_avatar.putalpha(mask)
-        new_avatar.save(avater_image)
+        new_avatar.save(avatar_filename)
         
         # Checks if background image path is a valid file, send just member avatar instead.
         if Path(BackgroundImage).is_file():
