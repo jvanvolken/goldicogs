@@ -67,7 +67,7 @@ class Welcome(commands.Cog):
             draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
             # Overlay text onto blurred background
-            draw.text((0, 0), f"Welcome to the treehouse, {author.mention}!", (255,255,255), font = ImageFont.load_default())
+            draw.text((0, 0), f"Welcome to the treehouse, {author.display_name}!", (255,255,255), font = ImageFont.load_default())
             
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
