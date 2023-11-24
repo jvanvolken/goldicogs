@@ -39,7 +39,7 @@ class Welcome(commands.Cog):
         filename = Avatars + f"/avatar_{author.id}.jpg"
 
         # Download and save the avatar image
-        await author.display_icon.save(filename)
+        await author.display_avatar.save(filename)
         avatar_file = discord.File(filename)
 
         # Sends a welcome message in the command's origin channel
