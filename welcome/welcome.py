@@ -84,7 +84,7 @@ class Welcome(commands.Cog):
             # Set welcome message and desired width
             clean_name = author.display_name.encode().decode('ascii','ignore') + "!"
             name_size_ratio = 1.2
-            welcome_message = f"Welcome to the treehouse,"
+            welcome_message = f"Welcome to the Lake House,"
             desired_width = (background_width - (margins * 2)) * 0.8
             desired_height = (background_height - margins - avatar_position[1] - resized_height) * 0.8
 
