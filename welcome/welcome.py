@@ -49,10 +49,10 @@ class Welcome(commands.Cog):
             img = Image.open(BackgroundImage)
             width, height = img.size
 
-            margins = width * 0.1
+            margins = width * 0.05
 
             draw = ImageDraw.Draw(img, "RGBA")
-            draw.rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 127))
+            draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
             img.save(avatar_background)
 
             await channel.send(f"With this background!", file = discord.File(avatar_background))
