@@ -17,7 +17,7 @@ Font_Dir          = docker_cog_path + "/Fonts"
 # Define Filepaths
 background_image  = docker_cog_path + "/welcome_background.jpg"
 avatar_background = docker_cog_path + "/avatar_background.png"
-welcome_font      = Font_Dir + "/TheCottage.ttf"
+welcome_font      = Font_Dir + "/WhiteOnBlack.ttf"
 
 # Fonts:
 # TheCottage
