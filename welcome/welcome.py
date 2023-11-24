@@ -79,7 +79,7 @@ class Welcome(commands.Cog):
 
             # Draw shadow and save new background image
             draw = ImageDraw.Draw(blurred_background, "RGBA")
-            draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
+            draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = round(background_height * 0.05))
 
             # Set welcome message and desired width
             clean_name = author.display_name.encode().decode('ascii','ignore') + "!"
