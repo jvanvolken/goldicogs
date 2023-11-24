@@ -1,7 +1,7 @@
 import discord
 from redbot.core import commands
 
-docker_cog_path = "/data/cogs/Welcome/Avatars"
+docker_cog_path = "/data/cogs/Welcome/Avatars/"
 
 class Welcome(commands.Cog):
     """My custom cog"""
