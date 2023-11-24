@@ -24,9 +24,10 @@ class Welcome(commands.Cog):
         author = ctx.message.author
 
         # Download the avatar image
-        filename = f"avatar_{author.id}.jpg"
-        await author.avatar.save(filename)
-        avatar_file = discord.File(filename)
+        # filename = f"avatar_{author.id}.jpg"
+        # print()
+        # await author.avatar.save(filename)
+        # avatar_file = discord.File(filename)
 
         # Sends message in the command's origin channel
-        await channel.send(f"Hello {author.mention}!", file = avatar_file)
+        await channel.send(f"Hello {author.mention}!", embed = author.avatar)
