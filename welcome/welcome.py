@@ -66,13 +66,13 @@ class Welcome(commands.Cog):
             #Apply GaussianBlur filter
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
 
-            # Determines the avatar position early to determine layout
-            avatar_position = (round((background_width - resized_width)/2), round(margins * 1.4))
-
             # Resize avatar image to fit the background
             resize_ratio = (background_height / avatar_height) * 0.4
             resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.Resampling.LANCZOS)
             resized_width, resized_height = resized_avatar.size
+
+            # Determines the avatar position early to determine layout
+            avatar_position = (round((background_width - resized_width)/2), round(margins * 1.4))
 
             # Set the background's margin
             margins = background_width * 0.07
