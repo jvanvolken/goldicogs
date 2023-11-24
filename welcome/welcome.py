@@ -1,6 +1,8 @@
 import discord
 from redbot.core import commands
 
+docker_cog_path = "/data/cogs/Welcome/Avatars"
+
 class Welcome(commands.Cog):
     """My custom cog"""
 
@@ -24,8 +26,8 @@ class Welcome(commands.Cog):
         author = ctx.message.author
 
         # Download the avatar image
-        filename = f"avatar_{author.id}.jpg"
-        await author.avatar.save("/data/" + filename)
+        filename = docker_cog_path + f"avatar_{author.id}.jpg"
+        await author.avatar.save(filename)
         avatar_file = discord.File(filename)
 
         # Sends message in the command's origin channel
