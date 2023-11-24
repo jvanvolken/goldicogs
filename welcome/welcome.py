@@ -20,8 +20,8 @@ avatar_background = docker_cog_path + "/avatar_background.png"
 welcome_font      = Font_Dir + "/WhiteOnBlack.ttf"
 
 # Fonts:
-# TheCottage
-# WhiteOnBlack
+## TheCottage
+## WhiteOnBlack
 
 
 class Welcome(commands.Cog):
@@ -66,6 +66,14 @@ class Welcome(commands.Cog):
             #Apply GaussianBlur filter
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
 
+            # Determines the avatar position early to determine layout
+            avatar_position = (round((background_width - resized_width)/2), round(margins * 1.4))
+
+            # Resize avatar image to fit the background
+            resize_ratio = (background_height / avatar_height) * 0.4
+            resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.Resampling.LANCZOS)
+            resized_width, resized_height = resized_avatar.size
+
             # Set the background's margin
             margins = background_width * 0.07
 
@@ -76,13 +84,18 @@ class Welcome(commands.Cog):
             # Set welcome message and desired width
             clean_name = author.display_name.encode().decode('ascii','ignore') + "!"
             welcome_message = f"Welcome to the treehouse,"
-            message_width = (background_width - (margins * 2)) * 0.8
+            desired_width = (background_width - (margins * 2)) * 0.8
+            desired_height = (background_height - (margins * 2) - avatar_position[1] - resized_height) * 0.8
 
             # Increase font size until it fills the desired space
             fontsize = 1
+            fontwidth = 0
+            fontheight = 0
             font = ImageFont.truetype(welcome_font, fontsize)
-            while (font.getbbox(welcome_message)[2] - font.getbbox(welcome_message)[0]) < message_width:
+            while fontwidth < desired_width and fontheight < desired_height:
                 fontsize += 1
+                fontwidth = (font.getbbox(welcome_message)[2] - font.getbbox(welcome_message)[0])
+                fontheight = (font.getbbox(welcome_message)[3] - font.getbbox(welcome_message)[1])
                 font = ImageFont.truetype(welcome_font, fontsize)
 
             # Set the member display name fontsize
@@ -95,25 +108,19 @@ class Welcome(commands.Cog):
             line2_height = name_font.getbbox(clean_name)[3] - name_font.getbbox(clean_name)[1]
 
             # Overlay text onto blurred background
-            position = (round((background_width - line1_width)/2), background_height - round(margins * 1.2) - line1_height - line2_height)
-            draw.text(position, welcome_message, (209, 202, 192, 255), font = font)
-            position = (round((background_width - line2_width)/2), background_height - round(margins * 1.2) - line2_height)
-            draw.text(position, clean_name, (209, 202, 192, 255), font = name_font)
-            
-            # Resize avatar image to fit the background
-            resize_ratio = (background_height / avatar_height) * 0.4
-            resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.Resampling.LANCZOS)
-            resized_width, resized_height = resized_avatar.size
+            line1_position = (round((background_width - line1_width)/2), background_height - round(margins * 1.2) - line1_height - line2_height)
+            draw.text(line1_position, welcome_message, (209, 202, 192, 255), font = font)
+            line2_position = (round((background_width - line2_width)/2), background_height - round(margins * 1.2) - line2_height)
+            draw.text(line2_position, clean_name, (209, 202, 192, 255), font = name_font)
 
             # Draw circle around avatar image
             outline_thickness = 5
             outline_gap = 8
-            position = (round((background_width - resized_width)/2), round(margins * 1.4))
             outlineShape = (
-                position[0] - outline_thickness - outline_gap, 
-                position[1] - outline_thickness - outline_gap,
-                position[0] + resized_avatar.size[0] + outline_thickness + outline_gap, 
-                position[1] + resized_avatar.size[1] + outline_thickness + outline_gap
+                avatar_position[0] - outline_thickness - outline_gap, 
+                avatar_position[1] - outline_thickness - outline_gap,
+                avatar_position[0] + resized_avatar.size[0] + outline_thickness + outline_gap, 
+                avatar_position[1] + resized_avatar.size[1] + outline_thickness + outline_gap
             )
             draw.ellipse(outlineShape, outline = (209, 202, 192, 255), width = outline_thickness)
 
@@ -123,7 +130,7 @@ class Welcome(commands.Cog):
             draw.ellipse((0, 0) + resized_avatar.size, fill=255)
             
             # Overlay avatar onto blurred background
-            blurred_background.paste(resized_avatar, position, mask)
+            blurred_background.paste(resized_avatar, avatar_position, mask)
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
