@@ -42,7 +42,8 @@ class Welcome(commands.Cog):
         await author.avatar.save(avatar_filename)
         
         # Setup a circular mask
-        masksize = (128, 128)
+        avater_image = Image.open(avatar_filename)
+        masksize = avater_image.size
         mask = Image.new('L', masksize, 0)
         draw = ImageDraw.Draw(mask) 
         draw.ellipse((0, 0) + masksize, fill=255)
@@ -57,7 +58,6 @@ class Welcome(commands.Cog):
         if Path(background_image).is_file():
             # Opens the background image and the avatar image
             welcome_background = Image.open(background_image)
-            avater_image = Image.open(avatar_filename)
 
             # Records the width and height of the background image
             width, height = welcome_background.size
@@ -73,8 +73,7 @@ class Welcome(commands.Cog):
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
             # Overlays avatar onto background
-            x, y = avater_image.size
-            blurred_background.paste(avater_image, (0, 0, x, y) , mask)
+            blurred_background.paste(avater_image, (0, 0), mask)
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
