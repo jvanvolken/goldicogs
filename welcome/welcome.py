@@ -1,3 +1,4 @@
+import discord
 from redbot.core import commands
 
 class Welcome(commands.Cog):
@@ -17,5 +18,15 @@ class Welcome(commands.Cog):
     @commands.command()
     async def test_cmd(self, ctx):
         """This responds to the text command!"""
+
+        # Get important information about the context of the command
         channel = ctx.channel
-        await channel.send(f"Hello {ctx.message.author.mention}!")
+        author = ctx.message.author
+
+        # Download the avatar image
+        filename = f"avatar_{author.id}.jpg"
+        await ctx.author.avatar_url.save(filename)
+        author_avatar = discord.File(filename)
+
+        # Sends message in the command's origin channel
+        await channel.send(f"Hello {author.mention}!", file = author_avatar)
