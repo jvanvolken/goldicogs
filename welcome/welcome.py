@@ -49,13 +49,13 @@ class Welcome(commands.Cog):
             img = Image.open(BackgroundImage)
             width, height = img.size
 
-            margins = width * 0.05
+            margins = width * 0.075
 
             draw = ImageDraw.Draw(img, "RGBA")
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
             img.save(avatar_background)
 
-            await channel.send(f"Welcome to the treehouse, {author.mention}! Make yourself comfortable!", file = discord.File(avatar_background))
+            await channel.send(f"Welcome to the treehouse, {author.mention}! Make yourself at home!", file = discord.File(avatar_background))
         else:
             await channel.send(f"Hello {author.mention}!", file = avatar_file)
 
