@@ -1,6 +1,6 @@
 # Image and File Manipulation Libraries
 from pathlib import Path
-from PIL import Image, ImageOps, ImageDraw, ImageFilter
+from PIL import Image, ImageOps, ImageDraw, ImageFilter, ImageFont
 
 # Discord Bot Libraries
 import discord
@@ -66,14 +66,18 @@ class Welcome(commands.Cog):
             draw = ImageDraw.Draw(blurred_background, "RGBA")
             draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
+            # Overlay text onto blurred background
+            draw.text((0, 0), f"Welcome to the treehouse, {author.mention}!", (255,255,255), font = ImageFont.truetype("sans-serif.ttf", 16))
+            
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
             draw = ImageDraw.Draw(mask) 
             draw.ellipse((0, 0) + resized_avatar.size, fill=255)
             
-            # Overlays avatar onto background
+            # Overlay avatar onto blurred background
             position = (round((background_width - resized_width)/2), round(margins * 1.5))
             blurred_background.paste(resized_avatar, position, mask)
+
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
