@@ -102,12 +102,12 @@ class Welcome(commands.Cog):
             resized_width, resized_height = resized_avatar.size
 
             # Draw circle around avatar image
-            draw.ellipse((0, 0) + resized_avatar.size, outline = (209, 202, 192, 255), width = 20, antialias = 1)
+            draw.ellipse((0, 0) + resized_avatar.size, outline = (209, 202, 192, 255), width = 20)
 
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
             draw = ImageDraw.Draw(mask) 
-            draw.ellipse((0, 0) + resized_avatar.size, fill=255, antialias = 1)
+            draw.ellipse((0, 0) + resized_avatar.size, fill=255)
             
             # Overlay avatar onto blurred background
             position = (round((background_width - resized_width)/2), round(margins * 1.3))
