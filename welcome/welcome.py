@@ -6,11 +6,19 @@ from PIL import Image, ImageOps, ImageDraw, ImageFilter, ImageFont
 import discord
 from redbot.core import commands
 
+
+# Cog Directory in Unreal Engine
 docker_cog_path = "/data/cogs/Welcome"
 
+# Necessary Directories withing the Cog Directory
 Avatars_Dir       = docker_cog_path + "/Avatars"
+Font_Dir          = docker_cog_path + "/Fonts"
+
+# Define Filepaths
 background_image  = docker_cog_path + "/welcome_background.jpg"
 avatar_background = docker_cog_path + "/avatar_background.png"
+welcome_font      = Font_Dir + "/TheCottage.ttf"
+
 
 class Welcome(commands.Cog):
     """My custom cog"""
@@ -67,7 +75,7 @@ class Welcome(commands.Cog):
             draw.rounded_rectangle(((margins, margins), (background_width - margins, background_height - margins)), fill=(0, 0, 0, 160), radius = 10)
 
             # Overlay text onto blurred background
-            draw.text((0, 0), f"Welcome to the treehouse, {author.display_name}!", (255,255,255), font = ImageFont.load_default())
+            draw.text((0, 0), f"Welcome to the treehouse, {author.display_name}!", (255,255,255), font = ImageFont.truetype(welcome_font, 70))
             
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
