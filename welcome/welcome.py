@@ -4,6 +4,9 @@ from redbot.core import commands
 
 docker_cog_path = "/data/cogs/Welcome"
 
+Avatars = docker_cog_path + "/Avatars"
+BackgroundImage = docker_cog_path + "/background_image.jpg"
+
 class Welcome(commands.Cog):
     """My custom cog"""
 
@@ -19,15 +22,14 @@ class Welcome(commands.Cog):
     #         await channel.send(f'Welcome {member.mention}!!\n{userAvatarUrl}')
 
     @commands.command()
-    async def test_cmd(self, ctx):
-        """This responds to the text command!"""
+    async def test_welcome(self, ctx):
+        """Demonstrates the welcome message!"""
 
         # Get important information about the context of the command
         channel = ctx.channel
         author = ctx.message.author
 
         # Setup avatar folder and filename
-        Avatars = docker_cog_path + "/Avatars"
         Path(Avatars).mkdir(parents=True, exist_ok=True)
         filename = Avatars + f"/avatar_{author.id}.jpg"
 
@@ -37,3 +39,14 @@ class Welcome(commands.Cog):
 
         # Sends message in the command's origin channel
         await channel.send(f"Hello {author.mention}!", file = avatar_file)
+
+        if Path(BackgroundImage).if_file():
+            await channel.send(f"With this background!", file = discord.File(BackgroundImage))
+
+    @commands.command()
+    async def set_background(self, ctx):
+        """Sets the background of the welcome message!"""
+        
+        ctx.message.attachment.save(BackgroundImage)
+
+
