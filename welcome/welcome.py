@@ -53,7 +53,7 @@ class Welcome(commands.Cog):
 
             # Resize avatar image to fit the background
             resize_ratio = background_height / avatar_height
-            resized_avatar = avatar_image.resize((avatar_width * resize_ratio, avatar_height * resize_ratio), Image.ANTIALIAS)
+            resized_avatar = avatar_image.resize((round(avatar_width * resize_ratio), round(avatar_height * resize_ratio)), Image.ANTIALIAS)
 
             #Apply GaussianBlur filter
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
