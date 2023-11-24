@@ -45,11 +45,15 @@ class Welcome(commands.Cog):
         if Path(background_image).is_file():
             # Opens the background and avatar images
             welcome_background = Image.open(background_image)
-            avater_image = Image.open(avatar_filename)
+            avatar_image = Image.open(avatar_filename)
 
             # Records the width and height of the background and avatar images
             background_width, background_height = welcome_background.size
-            avatar_width, avatar_height = avater_image.size
+            avatar_width, avatar_height = avatar_image.size
+
+            # Resize avatar image to fit the background
+            resize_ratio = background_height / avatar_height
+            resized_avatar = avatar_image.resize((avatar_width * resize_ratio, avatar_height * resize_ratio), Image.ANTIALIAS)
 
             #Apply GaussianBlur filter
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
@@ -67,8 +71,8 @@ class Welcome(commands.Cog):
             draw.ellipse((0, 0, avatar_width, avatar_height), fill=255)
             
             # Overlays avatar onto background
-            position = (round((background_width - avatar_width)/2), round(margins * 1.05))
-            blurred_background.paste(avater_image, position, mask)
+            position = (round((background_width - avatar_width)/2), 0) # round(margins * 1.5)
+            blurred_background.paste(resized_avatar, position, mask)
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
