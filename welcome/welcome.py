@@ -67,7 +67,7 @@ class Welcome(commands.Cog):
             blurred_background = welcome_background.filter(ImageFilter.GaussianBlur(5))
 
             # Set the background's margin
-            margins = background_width * 0.07
+            margins = background_width * 0.06
             
             # Resize avatar image to fit the background
             resize_ratio = (background_height / avatar_height) * 0.4
