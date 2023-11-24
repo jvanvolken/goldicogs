@@ -1,7 +1,6 @@
 # Image and File Manipulation Libraries
 from pathlib import Path
-from PIL import Image
-from PIL import ImageDraw
+from PIL import Image, ImageOps, ImageDraw
 
 # Discord Bot Libraries
 import discord
@@ -36,29 +35,46 @@ class Welcome(commands.Cog):
 
         # Setup avatar folder and filename
         Path(Avatars).mkdir(parents=True, exist_ok=True)
-        filename = Avatars + f"/avatar_{author.id}.jpg"
+        avatar_filename = Avatars + f"/avatar_{author.id}.png"
 
         # Download and save the avatar image
-        await author.display_avatar.save(filename)
-        avatar_file = discord.File(filename)
-
-        # Sends a welcome message in the command's origin channel
+        await author.avatar.save(avatar_filename)
+        
+        # Setup a circular mask
+        masksize = (128, 128)
+        mask = Image.new('L', masksize, 0)
+        draw = ImageDraw.Draw(mask) 
+        draw.ellipse((0, 0) + masksize, fill=255)
+        
+        # Apply the mask to the avatar image
+        avater_image = Image.open(avatar_filename)
+        new_avatar = ImageOps.fit(avater_image, mask.size, centering=(0.5, 0.5))
+        new_avatar.putalpha(mask)
+        new_avatar.save(avater_image)
+        
+        # Checks if background image path is a valid file, send just member avatar instead.
         if Path(BackgroundImage).is_file():
+            # Sets avatar background path
             avatar_background = docker_cog_path + "avatar_background.png"
 
+            # Opens the background image and record the width and height
             img = Image.open(BackgroundImage)
             width, height = img.size
 
+            # Set the background's margin
             margins = width * 0.07
 
+            # Draw shadow and save new background image
             draw = ImageDraw.Draw(img, "RGBA")
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
-            img.save(avatar_background)
 
-            await channel.send(f"Hello {author.mention}!", file = avatar_file)
+
+
+            # Sends a welcome message in the command's origin channel
+            await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
             await channel.send(f"Welcome to the treehouse, {author.mention}! Make yourself at home!", file = discord.File(avatar_background))
         else:
-            await channel.send(f"Hello {author.mention}!", file = avatar_file)
+            await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
 
 
 
