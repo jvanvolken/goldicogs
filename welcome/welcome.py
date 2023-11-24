@@ -83,6 +83,7 @@ class Welcome(commands.Cog):
 
             # Set welcome message and desired width
             clean_name = author.display_name.encode().decode('ascii','ignore') + "!"
+            name_size_ratio = 1.2
             welcome_message = f"Welcome to the treehouse,"
             desired_width = (background_width - (margins * 2)) * 0.8
             desired_height = (background_height - margins - avatar_position[1] - resized_height) * 0.8
@@ -95,11 +96,11 @@ class Welcome(commands.Cog):
             while fontwidth < desired_width and fontheight < desired_height:
                 fontsize += 1
                 fontwidth = (font.getbbox(welcome_message)[2] - font.getbbox(welcome_message)[0])
-                fontheight = (font.getbbox(welcome_message)[3] - font.getbbox(welcome_message)[1])
+                fontheight = ((font.getbbox(welcome_message)[3] - font.getbbox(welcome_message)[1])) * 2 * name_size_ratio
                 font = ImageFont.truetype(welcome_font, fontsize - 1)
 
             # Set the member display name fontsize
-            name_font = ImageFont.truetype(welcome_font, round(fontsize * 1.2))
+            name_font = ImageFont.truetype(welcome_font, round(fontsize * name_size_ratio))
 
             # Get the width and height for each line
             line1_width = font.getbbox(welcome_message)[2] - font.getbbox(welcome_message)[0]
