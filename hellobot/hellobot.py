@@ -23,4 +23,4 @@ class HelloBot(commands.Cog):
     async def test_cmd(self, ctx):
         """This responds to the text command!"""
         channel = ctx.channel
-        await channel.send("Hello {ctx.message.author.mention}!")
+        await channel.send(f"Hello {ctx.message.author.mention}!")
