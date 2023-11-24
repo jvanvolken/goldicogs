@@ -102,14 +102,15 @@ class Welcome(commands.Cog):
             resized_width, resized_height = resized_avatar.size
 
             # Draw circle around avatar image
+            outline_size = 10
             position = (round((background_width - resized_width)/2), round(margins * 1.3))
             outlineShape = (
-                position[0], 
-                position[1],
-                position[0] + resized_avatar.size[0], 
-                position[1] + resized_avatar.size[1]
+                position[0] - outline_size, 
+                position[1] - outline_size,
+                position[0] + resized_avatar.size[0] + outline_size, 
+                position[1] + resized_avatar.size[1] + outline_size
             )
-            draw.ellipse(outlineShape, outline = (209, 202, 192, 255), width = 10)
+            draw.ellipse(outlineShape, outline = (209, 202, 192, 255), width = outline_size)
 
             # Construct a circular mask for the avatar image
             mask = Image.new('L', resized_avatar.size, 0)
