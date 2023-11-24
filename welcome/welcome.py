@@ -27,8 +27,9 @@ class Welcome(commands.Cog):
         author = ctx.message.author
 
         # Setup avatar folder and filename
-        Path(docker_cog_path + "/Avatar").mkdir(parents=True, exist_ok=True)
-        filename = docker_cog_path + f"/avatar_{author.id}.jpg"
+        Avatars = docker_cog_path + "/Avatars"
+        Path(Avatars).mkdir(parents=True, exist_ok=True)
+        filename = Avatars + f"/avatar_{author.id}.jpg"
 
         # Download and save the avatar image
         await author.avatar.save(filename)
