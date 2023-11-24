@@ -48,15 +48,18 @@ class Welcome(commands.Cog):
         draw.ellipse((0, 0) + masksize, fill=255)
         
         # Apply the mask to the avatar image
-        avater_image = Image.open(avatar_filename)
-        new_avatar = ImageOps.fit(avater_image, mask.size, centering=(0.5, 0.5))
-        new_avatar.putalpha(mask)
-        new_avatar.save(avatar_filename)
+        # avater_image = Image.open(avatar_filename)
+        # new_avatar = ImageOps.fit(avater_image, mask.size, centering=(0.5, 0.5))
+        # new_avatar.putalpha(mask)
+        # new_avatar.save(avatar_filename)
         
         # Checks if background image path is a valid file, send just member avatar instead.
         if Path(background_image).is_file():
-            # Opens the background image and record the width and height
+            # Opens the background image and the avatar image
             background = Image.open(background_image)
+            avater_image = Image.open(avatar_filename)
+
+            # Records the width and height of the background image
             width, height = background.size
 
             #Apply GaussianBlur filter
@@ -68,6 +71,9 @@ class Welcome(commands.Cog):
             # Draw shadow and save new background image
             draw = ImageDraw.Draw(blurred_background, "RGBA")
             draw.rounded_rectangle(((margins, margins), (width - margins, height - margins)), fill=(0, 0, 0, 160), radius = 10)
+
+            # Overlays avatar onto background
+            blurred_background.paste(avater_image, (0, 0) , mask)
 
             # Saves the blurred background as the avatar background
             blurred_background.save(avatar_background)
