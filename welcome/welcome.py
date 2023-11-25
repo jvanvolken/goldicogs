@@ -75,7 +75,7 @@ class Welcome(commands.Cog):
             # Set welcome message and desired width
             clean_name = member.display_name.encode().decode('ascii','ignore') + "!"
             name_size_ratio = 1.2
-            welcome_message = f"Welcome to the Lake House,"
+            welcome_message = f"Welcome to the server,"
             desired_width = (background_width - (margins * 2)) * 0.8
             desired_height = (background_height - margins - avatar_position[1] - resized_height) * 0.8
 
@@ -128,7 +128,7 @@ class Welcome(commands.Cog):
             blurred_background.save(avatar_background)
 
             # Sends a welcome message in the command's origin channel
-            await channel.send(f"Welcome to the treehouse, {member.mention}! Make yourself at home!", file = discord.File(avatar_background))
+            await channel.send(f"Welcome to the server, {member.mention}! Make yourself at home!", file = discord.File(avatar_background))
         else:
             await channel.send(f"Hello {member.mention}!", file = discord.File(avatar_filename))
     
@@ -184,7 +184,7 @@ class Welcome(commands.Cog):
             # Set welcome message and desired width
             clean_name = author.display_name.encode().decode('ascii','ignore') + "!"
             name_size_ratio = 1.2
-            welcome_message = f"Welcome to the Lake House,"
+            welcome_message = f"Welcome to the server,"
             desired_width = (background_width - (margins * 2)) * 0.8
             desired_height = (background_height - margins - avatar_position[1] - resized_height) * 0.8
 
@@ -237,7 +237,7 @@ class Welcome(commands.Cog):
             blurred_background.save(avatar_background)
 
             # Sends a welcome message in the command's origin channel
-            await channel.send(f"Welcome to the treehouse, {author.mention}! Make yourself at home!", file = discord.File(avatar_background))
+            await channel.send(f"Welcome to the server, {author.mention}! Make yourself at home!", file = discord.File(avatar_background))
         else:
             await channel.send(f"Hello {author.mention}!", file = discord.File(avatar_filename))
 
